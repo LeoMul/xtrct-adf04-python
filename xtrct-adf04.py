@@ -1,5 +1,6 @@
 import argparse
 import sys
+import os
 CM2RYD=109737.43
 
 def find_cs(path,upper,lower):
@@ -93,8 +94,23 @@ else:
     if args.name:
         file_name = args.name
     else:
-        file_name = args.adf04+"_extracted_"+str(max(upper,lower))+"_"+str(min(upper,lower))
-    
+        string_of_adf04 = args.adf04
+        new_string =""
+        #print(string_of_adf04)
+        #pretty much this takes care of the user inputting a real / relative path
+        #and forces the output to go in current working directory.
+        for j in range(len(string_of_adf04)-1,-1,-1):
+            #print(string_of_adf04[j])
+            if string_of_adf04[j]!= '/':
+                new_string = string_of_adf04[j] + new_string 
+            else:
+                print("path to adf04 detected - trying to remove path and keep file name.")
+                break
+        #print(new_string)
+        file_name = new_string +"_extracted_"+str(max(upper,lower))+"_"+str(min(upper,lower))
+        print("outputting to ",file_name)
+
+
     if lower == upper:
         print("upper and lower the same, stopping")
         exit()
